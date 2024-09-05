@@ -3,15 +3,15 @@
     <mat-label>{{ label }}</mat-label>
     <mat-select multiple>
       <mat-select-trigger> {{ control.value }} </mat-select-trigger>
-      @for (optionList of optionsLists; track $index) {
-      <mat-optgroup [label]=" `Label $index`">
-        @for (option of optionList; track $index) {
-        <mat-option> {{ option[$index] }} </mat-option>
+      @for (optionList of optionsList; track $index) {
+      <mat-optgroup [label]="optionList.label">
+        @for (option of optionList.strings; track $index) {
+        <mat-option> {{ option }} </mat-option>
         }
       </mat-optgroup>
       }
       <mat-optgroup [label]="manualSelectedLabel">
-        @for(manualOption of manualOptions; track $index) {
+        @for(manualOption of manualOptionsList; track $index) {
         <mat-option>{{ manualOption }}</mat-option>
         }
       </mat-optgroup>

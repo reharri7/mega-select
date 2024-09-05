@@ -1,6 +1,11 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
+
+export interface IOptionsList {
+  label: string;
+  strings: string[];
+}
 
 @Component({
   selector: 'app-mega-select',
@@ -8,14 +13,23 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrl: './mega-select.component.css',
 })
 export class MegaSelectComponent {
+  public optionsList: IOptionsList[] = [];
+  public manualOptionsList: string[] = [];
   @Input() control: AbstractControl = new FormControl();
-  @Input() optionsLists = [];
   @Input() labels: string[] = [];
-  @Input() manualOptions: string[] = [];
   @Input() label: string = 'Mega Select';
   @Input() manualSelectedLabel = 'Manually Selected';
 
   protected selections = new SelectionModel(true, []);
 
-  constructor() {}
+  constructor() {
+  }
+
+  public setOptionsList(options: IOptionsList[]) {
+    this.optionsList = options;
+  }
+
+  public setManualOptionsList(manualOptions: string[]) {
+    this.manualOptionsList = manualOptions;
+  }
 }
