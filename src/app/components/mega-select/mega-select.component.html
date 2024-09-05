@@ -1,0 +1,20 @@
+<div>
+  <mat-form-field style="display: block; width: 300px; margin: 50px auto">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select multiple>
+      <mat-select-trigger> {{ control.value }} </mat-select-trigger>
+      @for (optionList of optionsLists; track $index) {
+      <mat-optgroup [label]=" `Label $index`">
+        @for (option of optionList; track $index) {
+        <mat-option> {{ option[$index] }} </mat-option>
+        }
+      </mat-optgroup>
+      }
+      <mat-optgroup [label]="manualSelectedLabel">
+        @for(manualOption of manualOptions; track $index) {
+        <mat-option>{{ manualOption }}</mat-option>
+        }
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+</div>
