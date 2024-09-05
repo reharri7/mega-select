@@ -20,9 +20,14 @@ export class MegaSelectComponent {
   @Input() label: string = 'Mega Select';
   @Input() manualSelectedLabel = 'Manually Selected';
 
-  protected selections = new SelectionModel(true, []);
+  protected selections = new SelectionModel<string>(true, []);
+  protected addOtherFormControl = new FormControl('');
 
   constructor() {
+    this.selections.changed.subscribe(_ => {
+      this.selections.sort();
+      this.control.setValue(this.selections.selected.join(', '));
+    })
   }
 
   public setOptionsList(options: IOptionsList[]) {
@@ -31,5 +36,24 @@ export class MegaSelectComponent {
 
   public setManualOptionsList(manualOptions: string[]) {
     this.manualOptionsList = manualOptions;
+  }
+
+  public selectAll(): void {
+    if(this.isAllSelected()) {
+      this.selections.clear();
+    } else {
+      this.selections.select(...this.manualOptionsList, ...this.optionsList.flatMap((option: IOptionsList) => option.strings));
+    }
+  }
+
+  public isAllSelected(): boolean {
+    return this.selections.selected.length === (this.manualOptionsList.length + this.optionsList.flatMap((option: IOptionsList) => option.strings).length)
+  }
+
+  addOtherManualOption() {
+    if(!!this.addOtherFormControl.value) {
+      this.manualOptionsList.push(this.addOtherFormControl.value);
+      this.addOtherFormControl.setValue('');
+    }
   }
 }

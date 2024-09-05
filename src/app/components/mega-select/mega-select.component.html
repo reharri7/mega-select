@@ -1,19 +1,31 @@
 <div>
-  <mat-form-field style="display: block; width: 300px; margin: 50px auto">
+  <mat-form-field style="display: block; width: 500px; margin: 50px auto">
     <mat-label>{{ label }}</mat-label>
-    <mat-select multiple>
+    <mat-select multiple [value]="selections.selected">
       <mat-select-trigger> {{ control.value }} </mat-select-trigger>
+      <div (click)="selectAll()">
+        <mat-checkbox [checked]="isAllSelected()" [indeterminate]="!isAllSelected() && selections.selected.length > 0">Select All</mat-checkbox>
+      </div>
       @for (optionList of optionsList; track $index) {
       <mat-optgroup [label]="optionList.label">
         @for (option of optionList.strings; track $index) {
-        <mat-option> {{ option }} </mat-option>
+          <div (click)="selections.toggle(option)">
+            <mat-option [value]="option"> {{ option }} </mat-option>
+          </div>
         }
       </mat-optgroup>
       }
       <mat-optgroup [label]="manualSelectedLabel">
         @for(manualOption of manualOptionsList; track $index) {
-        <mat-option>{{ manualOption }}</mat-option>
+          <div (click)="selections.toggle(manualOption)">
+            <mat-option [value]="manualOption">{{ manualOption }}</mat-option>
+          </div>
         }
+        <mat-form-field style="width: 500px">
+          <mat-label>Add other value</mat-label>
+          <input matInput [formControl]="addOtherFormControl" />
+          <button mat-button (click)="addOtherManualOption()">Add</button>
+        </mat-form-field>
       </mat-optgroup>
     </mat-select>
   </mat-form-field>
